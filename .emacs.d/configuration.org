@@ -1,0 +1,112 @@
+* Package Repositories
+#+BEGIN_SRC emacs-lisp
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
+   '("melpa" . "http://melpa.milkbox.net/packages/")
+   t))
+
+(add-to-list 'package-archives
+	     '("org"   . "http://orgmode.org/elpa/"))
+#+END_SRC
+
+* First tries
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (when window-system
+    (scroll-bar-mode -1))
+#+END_SRC
+* Unsorted
+#+BEGIN_SRC emacs-lisp
+(setq solarized-use-variable-pitch nil)
+  (setq solarized-height-plus-1 1.0)
+  (setq solarized-height-plus-2 1.0)
+  (setq solarized-height-plus-3 1.0)
+  (setq solarized-height-plus-4 1.0)
+  (setq solarized-high-contrast-mode-line t)
+  (load-theme 'solarized-dark t)
+
+(setq inhibit-startup-screen t)
+#+END_SRC
+* Whitespace mode
+#+BEGIN_SRC emacs-lisp
+(require 'whitespace)
+(setq whitespace-style '(face lines-tail))
+
+(add-hook 'prog-mode-hook 'whitespace-mode)
+#+END_SRC
+* Navigation
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-o") 'other-window)
+(setq next-screen-context-lines 15)
+(show-paren-mode 1)
+#+END_SRC
+* Org mode
+** General
+#+BEGIN_SRC emacs-lisp
+(require 'org)
+(define-key global-map "\C-ca" 'org-agenda)
+;;(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
+;; KEYWORDS für TODO
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)")))
+;; TAGS für TODO
+(setq org-tag-alist
+      '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
+
+(setq org-capture-templates
+      '(("p" ; hotkey
+	 "Private task." ; name
+	 entry (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
+	 "* TODO %?\n %i")))
+
+(setq org-log-done 'time)
+#+END_SRC
+** Org-bullet
+#+BEGIN_SRC emacs-lisp
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;;(setq org-ellipsis "⤵")
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-export-coding-system 'utf-8)
+
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+END_SRC
+** Summary TODO
+#+BEGIN_SRC emacs-lisp
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+#+END_SRC
+* Helm
+#+BEGIN_SRC emacs-lisp
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
+#+END_SRC
+* Ido
+#+BEGIN_SRC emacs-lisp
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(setq ido-create-new-buffer 'always) ; don't confirm to create new buffers
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(setq ido-file-extensions-order
+   (quote
+    (".vhd" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf")))
+(setq ido-use-filename-at-point (quote guess))
+#+END_SRC
