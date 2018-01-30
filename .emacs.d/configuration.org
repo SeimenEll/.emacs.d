@@ -1,3 +1,13 @@
+* Init Files
+#+BEGIN_SRC emacs-lisp
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
+   (load custom-file)
+(setq user-emacs-directory "~/.emacs.d/")
+(setq default-directory "~/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(setq backup-directory-alist `(("." . "~/.backup_emacs")))
+#+END_SRC
+
 * Package Repositories
 #+BEGIN_SRC emacs-lisp
 (when (>= emacs-major-version 24)
@@ -12,12 +22,16 @@
 	     '("org"   . "http://orgmode.org/elpa/"))
 #+END_SRC
 
-* First tries
+* Clean Window
 #+BEGIN_SRC emacs-lisp
-  (tool-bar-mode 0)
-  (menu-bar-mode 0)
-  (when window-system
-    (scroll-bar-mode -1))
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(toggle-scroll-bar -1) 
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 #+END_SRC
 * Unsorted
 #+BEGIN_SRC emacs-lisp
@@ -30,6 +44,9 @@
   (load-theme 'solarized-dark t)
 
 (setq inhibit-startup-screen t)
+
+(setq column-number-mode t)
+(setq tab-width 4)
 #+END_SRC
 * Whitespace mode
 #+BEGIN_SRC emacs-lisp
@@ -67,6 +84,7 @@
 (setq org-log-done 'time)
 #+END_SRC
 ** Org-bullet
+Org-bullet is pretty laggy.
 #+BEGIN_SRC emacs-lisp
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -81,8 +99,8 @@
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-export-coding-system 'utf-8)
 
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;;(require 'org-bullets)
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+END_SRC
 ** Summary TODO
 #+BEGIN_SRC emacs-lisp
@@ -92,6 +110,17 @@
     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+#+END_SRC
+** Export
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+#+END_SRC
+** Org Babel
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+'org-babel-load-languages
+'((dot . t)))
 #+END_SRC
 * Helm
 #+BEGIN_SRC emacs-lisp
@@ -109,4 +138,33 @@
    (quote
     (".vhd" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf")))
 (setq ido-use-filename-at-point (quote guess))
+#+END_SRC
+* Powerline
+#+BEGIN_SRC emacs-lisp
+(require 'powerline)
+(powerline-center-theme)
+#+END_SRC
+* Exex Path for Work-PC
+#+BEGIN_SRC emacs-lisp
+(if (file-directory-p "C:/cygwin64/bin")
+    (add-to-list 'exec-path "C:/cygwin64/bin"))
+#+END_SRC
+** Flyspell
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'exec-path "E:/Programme/Aspell/bin/")
+(setq ispell-program-name "aspell")
+(require 'ispell)
+#+END_SRC
+** Langtool
+#+BEGIN_SRC emacs-lisp
+(require 'langtool)
+(setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar")
+#+END_SRC
+* Buffer Move
+#+BEGIN_SRC emacs-lisp
+(require 'buffer-move)
+(global-set-key (kbd "C-c <up>")     'buf-move-up)
+(global-set-key (kbd "C-c <down>")   'buf-move-down)
+(global-set-key (kbd "C-c <left>")   'buf-move-left)
+(global-set-key (kbd "C-c <right>")  'buf-move-right)
 #+END_SRC
