@@ -18,6 +18,11 @@
    (quote
     ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(doc-view-ghostscript-program "C:/Program Files/gs/gs9.21/bin/gswin64.exe")
+ '(doc-view-resolution 150)
+ '(elfeed-feeds
+   (quote
+    ("http://fueserv.eltec.lan/foswiki/bin/view/Projekte/WebRss" "https://changelog.complete.org/feed" "http://planet.emacsen.org/atom.xml" "http://nullprogram.com/feed/")))
  '(emms-mode-line-icon-image-cache
    (quote
     (image :type xpm :ascent center :data "/* XPM */
@@ -41,7 +46,7 @@ static char *note[] = {
 \"#######..#\" };")))
  '(exec-path
    (quote
-    ("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/")))
+    ("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/" "E:/Programme/cURL/bin")))
  '(fci-rule-color "#073642")
  '(gnus-logo-colors (quote ("#259ea2" "#adadad")) t)
  '(gnus-mode-line-image-cache
@@ -105,9 +110,7 @@ static char *gnus-pointer[] = {
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/Dokumente/PersonalTasks.org" "e:/Dokumente/tasks.org")))
+ '(org-agenda-files (quote ("e:/Dokumente/tasks.org")))
  '(org-ascii-table-keep-all-vertical-lines t)
  '(org-ascii-table-widen-columns nil)
  '(org-ascii-text-width 72)
@@ -117,7 +120,23 @@ static char *gnus-pointer[] = {
      (latin1 61 45 126)
      (utf-8 9552 9472 9548 9476 9480))))
  '(org-bullets-bullet-list (quote ("▣" "◈" "◉" "✿" "✸" "○")))
+ '(org-capture-templates
+   (quote
+    (("p" "Private task." entry
+      (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
+      "* TODO %?
+ %i")
+     ("w" "Work task." entry
+      (file+headline "e:/Dokumente/tasks.org" "Now (Today/Tomorrow)")
+      "** TODO %?
+%i"))))
  '(org-enforce-todo-dependencies t)
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . emacs))))
  '(org-latex-compiler "pdflatex")
  '(org-startup-truncated nil)
  '(org-structure-template-alist
@@ -157,15 +176,7 @@ static char *gnus-pointer[] = {
      ("A" "#+ASCII: ")
      ("i" "#+INDEX: ?")
      ("I" "#+INCLUDE: %file ?")
-     ("buchung" "   - Eingang:
-     - ? Stück
-       | S-No. |
-       |-------|
-
-   - Ausgang:
-     | Anzahl | Empfänger | Zeitstempel (Ausg.) | Zurück | Zeitstempel (zurück) | S-No. |
-     |--------+-----------+---------------------+--------+----------------------+-------+
-"))))
+     ("buchung" "| *Seriennummer* | *MAC Adresse* | *Type* | *Bemerkung* | *Lagerort* | *Datum* |"))))
  '(package-archives
    (quote
     (("org" . "https://orgmode.org/elpa/")
@@ -173,11 +184,10 @@ static char *gnus-pointer[] = {
      ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (powerline ox-pandoc magit md4rd company color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-rst ox-twiki org-bullets ssh helm adaptive-wrap org-plus-contrib alect-themes maxframe langtool sudoku typit typing-game dash 2048-game buffer-move solarized-theme)))
- '(pop-up-frames nil)
+    (ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
- '(server-mode nil)
+ '(server-mode t)
  '(shell-file-name
    "C:/Program Files/Emacs/libexec/emacs/25.2/i686-w64-mingw32/cmdproxy.exe")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#839496" 0.2))
@@ -192,6 +202,8 @@ static char *gnus-pointer[] = {
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
  '(tls-checktrust nil)
+ '(user-full-name "Simon Liebelt")
+ '(user-mail-address "sliebelt@eltec.de")
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
@@ -218,26 +230,29 @@ static char *gnus-pointer[] = {
  '(vhdl-clock-name "ACLK")
  '(vhdl-company-name "ELTEC Elektronik AG")
  '(vhdl-compiler "Xilinx XST")
+ '(vhdl-copyright-string "-- Copyright (c) <year> <company>")
  '(vhdl-electric-mode nil)
  '(vhdl-end-comment-column 99)
  '(vhdl-file-header
-   "--------------------------------------------------------------------------------
+   "----------------------------------------------------------------------------------------------------
 -- Title      : <title string>
 -- Project    : <project>
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 -- File       : <filename>
 -- Author     : <author>
 -- Company    : <company>
 -- Created    : <date>
 -- Last update: <date>
 -- Platform   : <platform>
-<projectdesc>--------------------------------------------------------------------------------
+<projectdesc>----------------------------------------------------------------------------------------------------
 -- Description: <cursor>
-<copyright>--------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+<copyright>
+----------------------------------------------------------------------------------------------------
 -- Revisions  :
 -- Date        Version  Author  Description
 -- <date>  1.0      <login>	Created
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 ")
  '(vhdl-index-menu t)
@@ -298,7 +313,7 @@ end process <label>;  " "p" "pro")
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(whitespace-line-column 100)
- '(with-editor-emacsclient-executable "E:/Programme/Emacs/bin/runemacs.exe")
+ '(with-editor-emacsclient-executable "E:/Programme/Emacs/bin/emacsclient.exe")
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -308,6 +323,10 @@ end process <label>;  " "p" "pro")
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(elfeed-search-feed-face ((t (:foreground "sky blue"))))
+ '(elfeed-search-tag-face ((t (:foreground "gold"))))
+ '(elfeed-search-title-face ((t (:foreground "steel blue"))))
+ '(elfeed-search-unread-title-face ((t (:foreground "light cyan" :weight bold))))
  '(mode-line ((t (:background "#839496" :foreground "#002b36" :box (:line-width 1 :color "#839496" :style unspecified) :overline "#839496" :underline nil))))
  '(mode-line-highlight ((t (:foreground "gold2"))))
  '(org-level-1 ((t (:inherit variable-pitch :foreground "#cb4b16" :height 1.1))))

@@ -1,3 +1,4 @@
+﻿#+STARTUP: indent
 * Init Files
 #+BEGIN_SRC emacs-lisp
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
@@ -7,7 +8,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq backup-directory-alist `(("." . "~/.backup_emacs")))
 #+END_SRC
-
 * Package Repositories
 #+BEGIN_SRC emacs-lisp
 (when (>= emacs-major-version 24)
@@ -22,7 +22,7 @@
 	     '("org"   . "http://orgmode.org/elpa/"))
 #+END_SRC
 
-* Clean Window
+* Clean Frame
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -58,6 +58,7 @@
 * Navigation
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-O") 'other-frame)
 (setq next-screen-context-lines 15)
 (show-paren-mode 1)
 #+END_SRC
@@ -122,6 +123,11 @@ Org-bullet is pretty laggy.
 'org-babel-load-languages
 '((dot . t)))
 #+END_SRC
+** Twiki
+#+BEGIN_SRC emacs-lisp
+;;(require 'ox-tiddly) ;; error: Unknown keyword: :export-block
+(require 'ox-twiki)
+#+END_SRC
 * Helm
 #+BEGIN_SRC emacs-lisp
 (require 'helm-config)
@@ -142,7 +148,7 @@ Org-bullet is pretty laggy.
 * Powerline
 #+BEGIN_SRC emacs-lisp
 (require 'powerline)
-(powerline-center-theme)
+(powerline-default-theme)
 #+END_SRC
 * Exex Path for Work-PC
 #+BEGIN_SRC emacs-lisp
@@ -167,4 +173,166 @@ Org-bullet is pretty laggy.
 (global-set-key (kbd "C-c <down>")   'buf-move-down)
 (global-set-key (kbd "C-c <left>")   'buf-move-left)
 (global-set-key (kbd "C-c <right>")  'buf-move-right)
+#+END_SRC
+* Elfeed
+** Key-Bindings
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x w") 'elfeed)
+#+END_SRC
+** Date Display
+#+BEGIN_SRC emacs-lisp
+(defun elfeed-search-format-date (date)
+  (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
+#+END_SRC
+** Enty Tweaking
+#+BEGIN_SRC emacs-lisp
+;; Mark all YouTube entries
+(require 'elfeed)
+(add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :feed-url "youtube\\.com"
+                              :add '(video youtube)))
+
+;; Entries older than 2 weeks are marked as read
+(add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :before "2 weeks ago"
+                              :remove 'unread))
+#+END_SRC
+** Copied from [[https://github.com/skeeto/.emacs.d/blob/master/etc/feed-setup.el][Elfeed Creator]]
+Liste von vielleicht interessanten Blogs.
+
+(defmacro elfeed-config (&rest feeds)
+  "Minimizes feed listing indentation without being weird about it."
+  (declare (indent 0))
+  `(setf elfeed-feeds (mapcar #'elfeed--expand ',feeds)))
+
+(elfeed-config
+  ("https://sanctum.geek.nz/arabesque/feed/" blog dev)
+  ("http://esr.ibiblio.org/?feed=rss2" blog)
+  ("http://blog.cryptographyengineering.com/feeds/posts/default" blog)
+  ("http://accidental-art.tumblr.com/rss" image math)
+  ("https://www.npr.org/rss/podcast.php?id=510299" audio)
+  ("http://bartlebysbackpack.com/feed/" blog gaming)
+  ("http://english.bouletcorp.com/feed/" comic)
+  ("http://amitp.blogspot.com/feeds/posts/default" blog dev)
+  ("http://bit-player.org/feed" blog math)
+  ("http://simblob.blogspot.com/feeds/posts/default" blog dev)
+  ("https://utcc.utoronto.ca/~cks/space/blog/?atom" blog dev)
+  ("https://blog.coinbase.com/rss/" product bitcoin)
+  ("http://www.commitstrip.com/en/feed/" comic dev)
+  ("http://feeds.feedburner.com/Buttersafe" comic)
+  ("http://feeds.feedburner.com/CatVersusHuman" comic)
+  ("http://feeds.feedburner.com/channelATE" comic)
+  ("https://danluu.com/atom.xml" dev blog)
+  ("https://www.blogger.com/feeds/19727420/posts/default" blog)
+  ("https://www.debian.org/security/dsa" debian list security important)
+  ("https://www.debian.org/News/news" debian list)
+  ("http://dvdp.tumblr.com/rss" image)
+  ("https://www.digitalocean.com/blog/feed" blog product)
+  ("http://bay12games.com/dwarves/dev_now.rss" blog gaming product)
+  ("http://danwang.co/feed/" blog philosophy)
+  ("http://eli.thegreenplace.net/feeds/all.atom.xml" blog dev)
+  ("https://eerielinux.wordpress.com/feed/" blog dev)
+  ("http://feeds.feedburner.com/Explosm" comic)
+  ("http://www.exocomics.com/feed" comic)
+  ("http://freakonomics.com/feed/" audio)
+  ("http://www.tedunangst.com/flak/rss" dev blog)
+  ("https://flapenguin.me/atom.xml" dev blog)
+  ("http://firefly.nu/feeds/all.atom.xml" blog dev)
+  ("http://feeds.feedburner.com/Pidjin" comic)
+  ("http://www.goneintorapture.com/rss" comic)
+  ("https://www.hackerfactor.com/blog/rss.php?version=2.0" dev blog)
+  ("http://www.businesscat.happyjar.com/feed/" comic)
+  ("https://fasiha.github.io/atom.xml" blog dev)
+  ("http://feeds.feedburner.com/InvisibleBread" comic)
+  ("http://blog.ioactive.com/feeds/posts/default" blog security)
+  ("http://irreal.org/blog/?feed=rss2" blog)
+  ("http://photo.nullprogram.com/feed/" photo myself)
+  ("http://feeds.feedburner.com/lefthandedtoons/awesome" comic)
+  ("http://gottwurfelt.wordpress.com/feed/" blog math)
+  ("http://feeds.feedburner.com/LoadingArtist" comic)
+  ("https://www.masteringemacs.org/feed" blog emacs)
+  ("http://www.mazelog.com/rss" math puzzle)
+  ("http://www.mrlovenstein.com/rss.xml" comic)
+  ("http://mortoray.com/feed/" blog dev)
+  ("http://feeds.feedburner.com/MrMoneyMustache?format=xml" blog philosophy)
+  ("http://nedroid.com/feed/" comic)
+  ("https://nickdesaulniers.github.io/atom.xml" blog dev)
+  ("http://nullprogram.com/feed/" blog dev myself)
+  ("https://blogs.msdn.microsoft.com/oldnewthing/feed" blog dev)
+  ("http://www.optipess.com/feed/" comic)
+  ("http://piecomic.tumblr.com/rss" comic)
+  ("http://planet.emacsen.org/atom.xml" emacs planet)
+  ("http://possiblywrong.wordpress.com/feed/" blog math puzzle)
+  ("http://feeds.wnyc.org/radiolab" audio)
+  ("http://feeds.feedburner.com/RevisionistHistory" audio)
+  ("http://www.safelyendangered.com/feed/" comic)
+  ("https://www.schneier.com/blog/atom.xml" blog security)
+  ("http://www.smbc-comics.com/rss.php" comic)
+  ("http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss" audio)
+  ("https://github.com/blog/all.atom" blog dev product)
+  ("http://blog.plover.com/index.atom" blog dev)
+  ("http://use-the-index-luke.com/blog/feed" blog dev databases)
+  ("http://slatestarcodex.com/feed/" blog philosophy)
+  ("http://www.thingsinsquares.com/feed/" comic)
+  ("http://www.shamusyoung.com/twentysidedtale/?feed=rss2" blog gaming)
+  ("http://what-if.xkcd.com/feed.atom" blog)
+  ("http://www.whompcomic.com/rss.php" comic)
+  ("http://xkcd.com/atom.xml" comic)
+  ("http://hnapp.com/rss?q=host:nullprogram.com" hackernews myself)
+  ("http://www.reddit.com/domain/nullprogram.com.rss" reddit myself)
+  ("http://www.reddit.com/r/dailyprogrammer/.rss" subreddit)
+  ("1veritasium" youtube)
+  ("UCYO_jab_esuFRV4b17AJtAw" youtube) ; 3Blue1Brown
+  ("adric22" youtube) ; The 8-Bit Guy
+  ("UCcTt3O4_IW5gnA0c58eXshg" youtube) ; 8-Bit Keys
+  ("damo2986" youtube)
+  ("DemolitionRanch" youtube)
+  ("destinws2" youtube)
+  ("EEVblog" youtube)
+  ("eevblog2" youtube)
+  ("UCkGvUEt8iQLmq3aJIMjT2qQ" youtube) ; EEVdiscover
+  ("FilmTheorists" youtube)
+  ("foodwishes" youtube)
+  ("UCfVFSjHQ57zyxajhhRc7i0g" youtube) ; GameHut
+  ("GetDaved" youtube)
+  ("GhazPlays" youtube)
+  ("henders007" youtube) ; Grand Illusions
+  ("UCErSSa3CaP_GJxmFpdjG9Jw" youtube) ; Lessons from the Screenplay
+  ("UCXNxwOuuR7LT-SkEfOJiwgA" youtube) ; Long Plays
+  ("jastownsendandson" youtube)
+  ("MatthewPatrick13" youtube)
+  ("MatthiasWandel" youtube)
+  ("Nerdwriter1" youtube)
+  ("PlumpHelmetPunk" youtube)
+  ("UCAL3JXZSzSm8AlZyD3nQdBA" youtube) ; Primitive Technology
+  ("ProZD" youtube)
+  ("UCO8DQrSp5yEP937qNqTooOw" youtube) ; Strange Parts
+  ("UCy0tKL1T7wFoYcxCe0xjN6Q" youtube) ; Technology Connections
+  ("Thunderf00t" youtube)
+  ("handmadeheroarchive" youtube dev)
+  ("UCwRqWnW5ZkVaP_lZF7caZ-g" youtube) ; Retro Game Mechanics Explained
+  ("phreakindee" youtube)
+  ("quill18" youtube)
+  ("szyzyg" youtube)
+  ("UCsXVk37bltHxD1rDPwtNM8Q" youtube) ; Kurzgesagt In a Nutshell
+  ("Wendoverproductions" youtube))
+* MAGIT
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x g") 'magit-status)
+(add-to-list 'exec-path "C:/Program Files/Git/mingw64/libexec/git-core/")
+#+END_SRC
+* Custom Functions
+#+BEGIN_SRC emacs-lisp
+(defun good-morning-simon ()
+"Start all interesting Buffer for workflow."
+(interactive)
+(toggle-frame-fullscreen)
+(split-window-right 30)
+(find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
+(find-file "E:/Dokumente/Stundenzettel.org")
+(make-frame))
+#+END_SRC
+* Time
+#+BEGIN_SRC emacs-lisp
+(display-time)
 #+END_SRC
