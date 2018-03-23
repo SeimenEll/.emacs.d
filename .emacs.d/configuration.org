@@ -327,12 +327,20 @@ Liste von vielleicht interessanten Blogs.
 "Start all interesting Buffer for workflow."
 (interactive)
 (toggle-frame-fullscreen)
-(split-window-right 30)
+(split-window-right 58)
+(tomatinho)
+(split-window-below 50)
 (find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
+(split-window-below 30)
 (find-file "E:/Dokumente/Stundenzettel.org")
 (make-frame))
 #+END_SRC
 * Time
 #+BEGIN_SRC emacs-lisp
 (display-time)
+#+END_SRC
+* Google
+#+BEGIN_SRC emacs-lisp
+(require 'google-this)
+(google-this-mode 1)
 #+END_SRC

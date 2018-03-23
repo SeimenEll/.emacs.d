@@ -129,7 +129,7 @@ static char *gnus-pointer[] = {
      ("w" "Work task." entry
       (file+headline "e:/Dokumente/tasks.org" "Now (Today/Tomorrow)")
       "** TODO %?
-%i"))))
+%i"))) t)
  '(org-enforce-todo-dependencies t)
  '(org-file-apps
    (quote
@@ -184,7 +184,7 @@ static char *gnus-pointer[] = {
      ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
+    (tomatinho google-this glab ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(server-mode t)
@@ -337,4 +337,9 @@ end process <label>;  " "p" "pro")
  '(org-level-6 ((t (:inherit variable-pitch :foreground "#859900" :height 1.1))))
  '(org-level-7 ((t (:inherit variable-pitch :foreground "#dc322f" :height 1.1))))
  '(org-level-8 ((t (:inherit variable-pitch :foreground "#268bd2" :height 1.1))))
+ '(tomatinho-current-pause-face ((t (:inherit tomatinho-pause-face :height 2.5 :family "DejaVu Sans"))))
+ '(tomatinho-ok-face ((t (:foreground "tomato" :family "DejaVu Sans"))))
+ '(tomatinho-pause-face ((t (:foreground "green yellow"))))
+ '(tomatinho-reset-face ((t (:foreground "royal blue"))))
+ '(tomatinho-time-face ((t (:height 3.0 :width semi-condensed :family "DejaVu Sans"))))
  '(variable-pitch ((t (:foundry "outline" :family "Courier New")))))
