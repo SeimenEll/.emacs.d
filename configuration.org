@@ -1,0 +1,235 @@
+﻿#+STARTUP: indent
+* Init Files
+
+#+BEGIN_SRC emacs-lisp
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
+   (load custom-file)
+(setq user-emacs-directory "~/.emacs.d/")
+(setq default-directory "~/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(setq backup-directory-alist `(("." . "~/.backup_emacs")))
+#+END_SRC
+
+* Clean Frame
+
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(toggle-scroll-bar -1) 
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
+#+END_SRC
+
+* Unsorted
+
+#+BEGIN_SRC emacs-lisp
+(setq solarized-use-variable-pitch nil)
+  (setq solarized-height-plus-1 1.0)
+  (setq solarized-height-plus-2 1.0)
+  (setq solarized-height-plus-3 1.0)
+  (setq solarized-height-plus-4 1.0)
+  (setq solarized-high-contrast-mode-line t)
+  (load-theme 'solarized-dark t)
+
+(setq inhibit-startup-screen t)
+
+(setq column-number-mode t)
+(setq tab-width 4)
+#+END_SRC
+
+* Whitespace mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package whitespace
+  :ensure t
+  :config 
+  (setq whitespace-style '(face lines-tail))
+  (add-hook 'prog-mode-hook 'whitespace-mode))
+#+END_SRC
+
+* Navigation
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-O") 'other-frame)
+(setq next-screen-context-lines 15)
+(show-paren-mode 1)
+#+END_SRC
+
+* Org mode
+
+** General
+
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :ensure t
+  :config
+  (define-key global-map "\C-ca" 'org-agenda)
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
+  ;; KEYWORDS für TODO
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)")))
+  ;; TAGS für TODO
+  (setq org-tag-alist
+        '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
+
+  (setq org-capture-templates
+        '(("p" ; hotkey
+	   "Private task." ; name
+	   entry (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
+	   "* TODO %?\n %i")))
+
+  (setq org-log-done 'time))
+#+END_SRC
+
+** Org-bullet
+
+Org-bullet is pretty laggy.
+
+#+BEGIN_SRC emacs-lisp
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;;(setq org-ellipsis "⤵")
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-export-coding-system 'utf-8)
+
+;;(require 'org-bullets)
+;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+END_SRC
+
+** Summary TODO
+
+#+BEGIN_SRC emacs-lisp
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+#+END_SRC
+
+** Org Babel
+
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+'org-babel-load-languages
+'((dot . t)))
+#+END_SRC
+
+* Helm
+
+#+BEGIN_SRC emacs-lisp
+(use-package helm-config
+  :ensure t
+  :config (global-set-key (kbd "M-x") 'helm-M-x))
+#+END_SRC
+
+* Ido
+
+#+BEGIN_SRC emacs-lisp
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(setq ido-create-new-buffer 'always) ; don't confirm to create new buffers
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(setq ido-file-extensions-order
+   (quote
+    (".vhd" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf")))
+(setq ido-use-filename-at-point (quote guess))
+#+END_SRC
+
+* Powerline
+
+#+BEGIN_SRC emacs-lisp
+(use-package powerline
+  :ensure t
+  :config (powerline-default-theme))
+#+END_SRC
+
+* Exex Path for Work-PC
+
+#+BEGIN_SRC emacs-lisp
+(if (file-directory-p "C:/cygwin64/bin")
+    (add-to-list 'exec-path "C:/cygwin64/bin"))
+#+END_SRC
+
+** Flyspell
+
+#+BEGIN_SRC emacs-lisp
+(use-package ispell
+  :ensure t
+  :config 
+  (add-to-list 'exec-path "E:/Programme/Aspell/bin/")
+  (setq ispell-program-name "aspell"))
+#+END_SRC
+
+** Langtool
+
+#+BEGIN_SRC emacs-lisp
+(use-package langtool
+  :ensure t
+  :config 
+  (setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar"))
+#+END_SRC
+
+* Buffer Move
+
+#+BEGIN_SRC emacs-lisp
+(use-package buffer-move
+  :ensure t
+  :config 
+  (global-set-key (kbd "C-c <up>")     'buf-move-up)
+  (global-set-key (kbd "C-c <down>")   'buf-move-down)
+  (global-set-key (kbd "C-c <left>")   'buf-move-left)
+  (global-set-key (kbd "C-c <right>")  'buf-move-right))
+#+END_SRC
+
+* MAGIT
+
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :ensure t
+  :config
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (add-to-list 'exec-path "C:/Program Files/Git/mingw64/libexec/git-core/"))
+#+END_SRC
+
+* Custom Functions
+
+#+BEGIN_SRC emacs-lisp
+(defun good-morning-simon ()
+"Start all interesting Buffer for workflow."
+(interactive)
+(toggle-frame-fullscreen)
+(split-window-right 58)
+(tomatinho)
+(split-window-below 50)
+(find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
+(split-window-below 30)
+(find-file "E:/Dokumente/Stundenzettel.org")
+(make-frame))
+#+END_SRC
+
+* Time
+
+#+BEGIN_SRC emacs-lisp
+(display-time)
+#+END_SRC
+
+* Google
+
+#+BEGIN_SRC emacs-lisp
+(use-package google-this
+  :ensure t
+  :config (google-this-mode 1))
+#+END_SRC

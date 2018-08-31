@@ -1,5 +1,6 @@
 ﻿#+STARTUP: indent
 * Init Files
+
 #+BEGIN_SRC emacs-lisp
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
    (load custom-file)
@@ -8,7 +9,9 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq backup-directory-alist `(("." . "~/.backup_emacs")))
 #+END_SRC
+
 * Package Repositories
+
 #+BEGIN_SRC emacs-lisp
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -23,6 +26,7 @@
 #+END_SRC
 
 * Clean Frame
+
 #+BEGIN_SRC emacs-lisp
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -33,7 +37,9 @@
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 #+END_SRC
+
 * Unsorted
+
 #+BEGIN_SRC emacs-lisp
 (setq solarized-use-variable-pitch nil)
   (setq solarized-height-plus-1 1.0)
@@ -48,22 +54,29 @@
 (setq column-number-mode t)
 (setq tab-width 4)
 #+END_SRC
+
 * Whitespace mode
+
 #+BEGIN_SRC emacs-lisp
 (require 'whitespace)
 (setq whitespace-style '(face lines-tail))
 
 (add-hook 'prog-mode-hook 'whitespace-mode)
 #+END_SRC
+
 * Navigation
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-O") 'other-frame)
 (setq next-screen-context-lines 15)
 (show-paren-mode 1)
 #+END_SRC
+
 * Org mode
+
 ** General
+
 #+BEGIN_SRC emacs-lisp
 (require 'org)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -83,8 +96,19 @@
 	 "* TODO %?\n %i")))
 
 (setq org-log-done 'time)
+
+(define-key global-map "\C-cl" 'org-store-link)
 #+END_SRC
+
+** Agenda
+
+Oeffnet die Agenda im selben Fenster und zerstört nicht das momentane Window-Setup
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-window-setup 'current-window)
+#+END_SRC
+
 ** Org-bullet
+
 Org-bullet is pretty laggy.
 #+BEGIN_SRC emacs-lisp
 (setq locale-coding-system 'utf-8)
@@ -103,7 +127,9 @@ Org-bullet is pretty laggy.
 ;;(require 'org-bullets)
 ;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+END_SRC
+
 ** Summary TODO
+
 #+BEGIN_SRC emacs-lisp
 (defun org-summary-todo (n-done n-not-done)
   "Switch entry to DONE when all subentries are done, to TODO otherwise."
@@ -112,28 +138,38 @@ Org-bullet is pretty laggy.
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
+
 ** Export
+
 #+BEGIN_SRC emacs-lisp
 (eval-after-load "org"
   '(require 'ox-md nil t))
 #+END_SRC
+
 ** Org Babel
+
 #+BEGIN_SRC emacs-lisp
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((dot . t)))
 #+END_SRC
+
 ** Twiki
+
 #+BEGIN_SRC emacs-lisp
 ;;(require 'ox-tiddly) ;; error: Unknown keyword: :export-block
 (require 'ox-twiki)
 #+END_SRC
+
 * Helm
+
 #+BEGIN_SRC emacs-lisp
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
 #+END_SRC
+
 * Ido
+
 #+BEGIN_SRC emacs-lisp
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -145,28 +181,38 @@ Org-bullet is pretty laggy.
     (".vhd" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf")))
 (setq ido-use-filename-at-point (quote guess))
 #+END_SRC
+
 * Powerline
+
 #+BEGIN_SRC emacs-lisp
 (require 'powerline)
 (powerline-default-theme)
 #+END_SRC
+
 * Exex Path for Work-PC
+
 #+BEGIN_SRC emacs-lisp
 (if (file-directory-p "C:/cygwin64/bin")
     (add-to-list 'exec-path "C:/cygwin64/bin"))
 #+END_SRC
+
 ** Flyspell
+
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'exec-path "E:/Programme/Aspell/bin/")
 (setq ispell-program-name "aspell")
 (require 'ispell)
 #+END_SRC
+
 ** Langtool
+
 #+BEGIN_SRC emacs-lisp
 (require 'langtool)
 (setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar")
 #+END_SRC
+
 * Buffer Move
+
 #+BEGIN_SRC emacs-lisp
 (require 'buffer-move)
 (global-set-key (kbd "C-c <up>")     'buf-move-up)
@@ -174,17 +220,24 @@ Org-bullet is pretty laggy.
 (global-set-key (kbd "C-c <left>")   'buf-move-left)
 (global-set-key (kbd "C-c <right>")  'buf-move-right)
 #+END_SRC
+
 * Elfeed
+
 ** Key-Bindings
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x w") 'elfeed)
 #+END_SRC
+
 ** Date Display
+
 #+BEGIN_SRC emacs-lisp
 (defun elfeed-search-format-date (date)
   (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
 #+END_SRC
+
 ** Enty Tweaking
+
 #+BEGIN_SRC emacs-lisp
 ;; Mark all YouTube entries
 (require 'elfeed)
@@ -197,7 +250,9 @@ Org-bullet is pretty laggy.
           (elfeed-make-tagger :before "2 weeks ago"
                               :remove 'unread))
 #+END_SRC
+
 ** Copied from [[https://github.com/skeeto/.emacs.d/blob/master/etc/feed-setup.el][Elfeed Creator]]
+
 Liste von vielleicht interessanten Blogs.
 
 (defmacro elfeed-config (&rest feeds)
@@ -316,31 +371,102 @@ Liste von vielleicht interessanten Blogs.
   ("szyzyg" youtube)
   ("UCsXVk37bltHxD1rDPwtNM8Q" youtube) ; Kurzgesagt In a Nutshell
   ("Wendoverproductions" youtube))
+
 * MAGIT
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x g") 'magit-status)
 (add-to-list 'exec-path "C:/Program Files/Git/mingw64/libexec/git-core/")
 #+END_SRC
+
 * Custom Functions
+
+** Good Morning Simon
+
 #+BEGIN_SRC emacs-lisp
 (defun good-morning-simon ()
 "Start all interesting Buffer for workflow."
 (interactive)
 (toggle-frame-fullscreen)
 (split-window-right 58)
-(tomatinho)
-(split-window-below 50)
+;;(tomatinho)
+;;(split-window-below 50)
 (find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
 (split-window-below 30)
 (find-file "E:/Dokumente/Stundenzettel.org")
 (make-frame))
 #+END_SRC
+
+
+** Whack Whitespace
+
+#+BEGIN_SRC emacs-lisp
+    (defun whack-whitespace (arg)
+      "Delete all white space from point to the next word.  With prefix ARG
+    delete across newlines as well.  The only danger in this is that you
+    don't have to actually be at the end of a word to make it work.  It
+    skips over to the next whitespace and then whacks it all to the next
+    word."
+      (interactive "P")
+      (let ((regexp (if arg "[ \t\n]+" "[ \t]+")))
+        (re-search-forward regexp nil t)
+        (replace-match "" nil nil)))
+
+#+END_SRC
+
 * Time
+
 #+BEGIN_SRC emacs-lisp
 (display-time)
 #+END_SRC
+
 * Google
+
 #+BEGIN_SRC emacs-lisp
 (require 'google-this)
 (google-this-mode 1)
+#+END_SRC
+
+* RFC View
+
+#+BEGIN_SRC emacs-lisp
+;;  (setq auto-mode-alist
+ ;;       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
+   ;;           auto-mode-alist))
+;;
+  ;;(autoload 'rfcview-mode "rfcview" nil t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(require 'irfc)
+(setq irfc-directory "E:/Dokumente/Richtlinien/RFC/")
+(setq irfc-assoc-mode t)
+(setq auto-mode-alist
+       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . irfc-mode)
+          auto-mode-alist))
+#+END_SRC
+
+* Clang Format
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'clang-format)
+(global-set-key (kbd "C-c i") 'clang-format-region)
+(global-set-key (kbd "C-c u") 'clang-format-buffer)
+
+(setq clang-format-style-option "Google")
+
+#+END_SRC
+
+* Tiny Expand
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-;") #'tiny-expand)
+#+END_SRC
+
+* Same Frame Speedbar
+
+#+BEGIN_SRC emacs-lisp
+ (require 'sr-speedbar)
+ (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
 #+END_SRC
