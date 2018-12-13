@@ -10,6 +10,21 @@
 (setq backup-directory-alist `(("." . "~/.backup_emacs")))
 #+END_SRC
 
+* Package Repositories
+
+#+BEGIN_SRC emacs-lisp
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
+   '("melpa" . "http://melpa.milkbox.net/packages/")
+   t))
+
+(add-to-list 'package-archives
+	     '("org"   . "http://orgmode.org/elpa/"))
+#+END_SRC
+
 * Clean Frame
 
 #+BEGIN_SRC emacs-lisp
@@ -38,16 +53,17 @@
 
 (setq column-number-mode t)
 (setq tab-width 4)
+
+(global-auto-revert-mode t)
 #+END_SRC
 
 * Whitespace mode
 
 #+BEGIN_SRC emacs-lisp
-(use-package whitespace
-  :ensure t
-  :config 
-  (setq whitespace-style '(face lines-tail))
-  (add-hook 'prog-mode-hook 'whitespace-mode))
+(require 'whitespace)
+(setq whitespace-style '(face lines-tail))
+
+(add-hook 'prog-mode-hook 'whitespace-mode)
 #+END_SRC
 
 * Navigation
@@ -57,6 +73,7 @@
 (global-set-key (kbd "M-O") 'other-frame)
 (setq next-screen-context-lines 15)
 (show-paren-mode 1)
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
 #+END_SRC
 
 * Org mode
@@ -64,31 +81,40 @@
 ** General
 
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :ensure t
-  :config
-  (define-key global-map "\C-ca" 'org-agenda)
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
-  ;; KEYWORDS für TODO
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)")))
-  ;; TAGS für TODO
-  (setq org-tag-alist
-        '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
+(require 'org)
+(define-key global-map "\C-ca" 'org-agenda)
+;;(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
+;; KEYWORDS für TODO
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)")))
+;; TAGS für TODO
+(setq org-tag-alist
+      '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
 
-  (setq org-capture-templates
-        '(("p" ; hotkey
-	   "Private task." ; name
-	   entry (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
-	   "* TODO %?\n %i")))
+(setq org-capture-templates
+      '(("p" ; hotkey
+	 "Private task." ; name
+	 entry (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
+	 "* TODO %?\n %i")))
 
-  (setq org-log-done 'time))
+(setq org-log-done 'time)
+
+(define-key global-map "\C-cl" 'org-store-link)
+
+(setq org-image-actual-width (/ (display-pixel-width) 3))
+#+END_SRC
+
+** Agenda
+
+Oeffnet die Agenda im selben Fenster und zerstört nicht das momentane Window-Setup
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-window-setup 'current-window)
 #+END_SRC
 
 ** Org-bullet
 
 Org-bullet is pretty laggy.
-
 #+BEGIN_SRC emacs-lisp
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -118,6 +144,13 @@ Org-bullet is pretty laggy.
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
+** Export
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+#+END_SRC
+
 ** Org Babel
 
 #+BEGIN_SRC emacs-lisp
@@ -126,12 +159,18 @@ Org-bullet is pretty laggy.
 '((dot . t)))
 #+END_SRC
 
+** Twiki
+
+#+BEGIN_SRC emacs-lisp
+;;(require 'ox-tiddly) ;; error: Unknown keyword: :export-block
+(require 'ox-twiki)
+#+END_SRC
+
 * Helm
 
 #+BEGIN_SRC emacs-lisp
-(use-package helm-config
-  :ensure t
-  :config (global-set-key (kbd "M-x") 'helm-M-x))
+(require 'helm-config)
+(global-set-key (kbd "M-x") 'helm-M-x)
 #+END_SRC
 
 * Ido
@@ -151,9 +190,8 @@ Org-bullet is pretty laggy.
 * Powerline
 
 #+BEGIN_SRC emacs-lisp
-(use-package powerline
-  :ensure t
-  :config (powerline-default-theme))
+(require 'powerline)
+(powerline-default-theme)
 #+END_SRC
 
 * Exex Path for Work-PC
@@ -166,45 +204,189 @@ Org-bullet is pretty laggy.
 ** Flyspell
 
 #+BEGIN_SRC emacs-lisp
-(use-package ispell
-  :ensure t
-  :config 
-  (add-to-list 'exec-path "E:/Programme/Aspell/bin/")
-  (setq ispell-program-name "aspell"))
+(add-to-list 'exec-path "E:/Programme/Aspell/bin/")
+(setq ispell-program-name "aspell")
+(require 'ispell)
 #+END_SRC
 
 ** Langtool
 
 #+BEGIN_SRC emacs-lisp
-(use-package langtool
-  :ensure t
-  :config 
-  (setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar"))
+(require 'langtool)
+(setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar")
 #+END_SRC
 
 * Buffer Move
 
 #+BEGIN_SRC emacs-lisp
-(use-package buffer-move
-  :ensure t
-  :config 
-  (global-set-key (kbd "C-c <up>")     'buf-move-up)
-  (global-set-key (kbd "C-c <down>")   'buf-move-down)
-  (global-set-key (kbd "C-c <left>")   'buf-move-left)
-  (global-set-key (kbd "C-c <right>")  'buf-move-right))
+(require 'buffer-move)
+(global-set-key (kbd "C-c <up>")     'buf-move-up)
+(global-set-key (kbd "C-c <down>")   'buf-move-down)
+(global-set-key (kbd "C-c <left>")   'buf-move-left)
+(global-set-key (kbd "C-c <right>")  'buf-move-right)
 #+END_SRC
+
+* Elfeed
+
+** Key-Bindings
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x w") 'elfeed)
+#+END_SRC
+
+** Date Display
+
+#+BEGIN_SRC emacs-lisp
+(defun elfeed-search-format-date (date)
+  (format-time-string "%Y-%m-%d %H:%M" (seconds-to-time date)))
+#+END_SRC
+
+** Enty Tweaking
+
+#+BEGIN_SRC emacs-lisp
+;; Mark all YouTube entries
+(require 'elfeed)
+(add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :feed-url "youtube\\.com"
+                              :add '(video youtube)))
+
+;; Entries older than 2 weeks are marked as read
+(add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :before "2 weeks ago"
+                              :remove 'unread))
+#+END_SRC
+
+** Copied from [[https://github.com/skeeto/.emacs.d/blob/master/etc/feed-setup.el][Elfeed Creator]]
+
+Liste von vielleicht interessanten Blogs.
+
+(defmacro elfeed-config (&rest feeds)
+  "Minimizes feed listing indentation without being weird about it."
+  (declare (indent 0))
+  `(setf elfeed-feeds (mapcar #'elfeed--expand ',feeds)))
+
+(elfeed-config
+  ("https://sanctum.geek.nz/arabesque/feed/" blog dev)
+  ("http://esr.ibiblio.org/?feed=rss2" blog)
+  ("http://blog.cryptographyengineering.com/feeds/posts/default" blog)
+  ("http://accidental-art.tumblr.com/rss" image math)
+  ("https://www.npr.org/rss/podcast.php?id=510299" audio)
+  ("http://bartlebysbackpack.com/feed/" blog gaming)
+  ("http://english.bouletcorp.com/feed/" comic)
+  ("http://amitp.blogspot.com/feeds/posts/default" blog dev)
+  ("http://bit-player.org/feed" blog math)
+  ("http://simblob.blogspot.com/feeds/posts/default" blog dev)
+  ("https://utcc.utoronto.ca/~cks/space/blog/?atom" blog dev)
+  ("https://blog.coinbase.com/rss/" product bitcoin)
+  ("http://www.commitstrip.com/en/feed/" comic dev)
+  ("http://feeds.feedburner.com/Buttersafe" comic)
+  ("http://feeds.feedburner.com/CatVersusHuman" comic)
+  ("http://feeds.feedburner.com/channelATE" comic)
+  ("https://danluu.com/atom.xml" dev blog)
+  ("https://www.blogger.com/feeds/19727420/posts/default" blog)
+  ("https://www.debian.org/security/dsa" debian list security important)
+  ("https://www.debian.org/News/news" debian list)
+  ("http://dvdp.tumblr.com/rss" image)
+  ("https://www.digitalocean.com/blog/feed" blog product)
+  ("http://bay12games.com/dwarves/dev_now.rss" blog gaming product)
+  ("http://danwang.co/feed/" blog philosophy)
+  ("http://eli.thegreenplace.net/feeds/all.atom.xml" blog dev)
+  ("https://eerielinux.wordpress.com/feed/" blog dev)
+  ("http://feeds.feedburner.com/Explosm" comic)
+  ("http://www.exocomics.com/feed" comic)
+  ("http://freakonomics.com/feed/" audio)
+  ("http://www.tedunangst.com/flak/rss" dev blog)
+  ("https://flapenguin.me/atom.xml" dev blog)
+  ("http://firefly.nu/feeds/all.atom.xml" blog dev)
+  ("http://feeds.feedburner.com/Pidjin" comic)
+  ("http://www.goneintorapture.com/rss" comic)
+  ("https://www.hackerfactor.com/blog/rss.php?version=2.0" dev blog)
+  ("http://www.businesscat.happyjar.com/feed/" comic)
+  ("https://fasiha.github.io/atom.xml" blog dev)
+  ("http://feeds.feedburner.com/InvisibleBread" comic)
+  ("http://blog.ioactive.com/feeds/posts/default" blog security)
+  ("http://irreal.org/blog/?feed=rss2" blog)
+  ("http://photo.nullprogram.com/feed/" photo myself)
+  ("http://feeds.feedburner.com/lefthandedtoons/awesome" comic)
+  ("http://gottwurfelt.wordpress.com/feed/" blog math)
+  ("http://feeds.feedburner.com/LoadingArtist" comic)
+  ("https://www.masteringemacs.org/feed" blog emacs)
+  ("http://www.mazelog.com/rss" math puzzle)
+  ("http://www.mrlovenstein.com/rss.xml" comic)
+  ("http://mortoray.com/feed/" blog dev)
+  ("http://feeds.feedburner.com/MrMoneyMustache?format=xml" blog philosophy)
+  ("http://nedroid.com/feed/" comic)
+  ("https://nickdesaulniers.github.io/atom.xml" blog dev)
+  ("http://nullprogram.com/feed/" blog dev myself)
+  ("https://blogs.msdn.microsoft.com/oldnewthing/feed" blog dev)
+  ("http://www.optipess.com/feed/" comic)
+  ("http://piecomic.tumblr.com/rss" comic)
+  ("http://planet.emacsen.org/atom.xml" emacs planet)
+  ("http://possiblywrong.wordpress.com/feed/" blog math puzzle)
+  ("http://feeds.wnyc.org/radiolab" audio)
+  ("http://feeds.feedburner.com/RevisionistHistory" audio)
+  ("http://www.safelyendangered.com/feed/" comic)
+  ("https://www.schneier.com/blog/atom.xml" blog security)
+  ("http://www.smbc-comics.com/rss.php" comic)
+  ("http://www.howstuffworks.com/podcasts/stuff-you-should-know.rss" audio)
+  ("https://github.com/blog/all.atom" blog dev product)
+  ("http://blog.plover.com/index.atom" blog dev)
+  ("http://use-the-index-luke.com/blog/feed" blog dev databases)
+  ("http://slatestarcodex.com/feed/" blog philosophy)
+  ("http://www.thingsinsquares.com/feed/" comic)
+  ("http://www.shamusyoung.com/twentysidedtale/?feed=rss2" blog gaming)
+  ("http://what-if.xkcd.com/feed.atom" blog)
+  ("http://www.whompcomic.com/rss.php" comic)
+  ("http://xkcd.com/atom.xml" comic)
+  ("http://hnapp.com/rss?q=host:nullprogram.com" hackernews myself)
+  ("http://www.reddit.com/domain/nullprogram.com.rss" reddit myself)
+  ("http://www.reddit.com/r/dailyprogrammer/.rss" subreddit)
+  ("1veritasium" youtube)
+  ("UCYO_jab_esuFRV4b17AJtAw" youtube) ; 3Blue1Brown
+  ("adric22" youtube) ; The 8-Bit Guy
+  ("UCcTt3O4_IW5gnA0c58eXshg" youtube) ; 8-Bit Keys
+  ("damo2986" youtube)
+  ("DemolitionRanch" youtube)
+  ("destinws2" youtube)
+  ("EEVblog" youtube)
+  ("eevblog2" youtube)
+  ("UCkGvUEt8iQLmq3aJIMjT2qQ" youtube) ; EEVdiscover
+  ("FilmTheorists" youtube)
+  ("foodwishes" youtube)
+  ("UCfVFSjHQ57zyxajhhRc7i0g" youtube) ; GameHut
+  ("GetDaved" youtube)
+  ("GhazPlays" youtube)
+  ("henders007" youtube) ; Grand Illusions
+  ("UCErSSa3CaP_GJxmFpdjG9Jw" youtube) ; Lessons from the Screenplay
+  ("UCXNxwOuuR7LT-SkEfOJiwgA" youtube) ; Long Plays
+  ("jastownsendandson" youtube)
+  ("MatthewPatrick13" youtube)
+  ("MatthiasWandel" youtube)
+  ("Nerdwriter1" youtube)
+  ("PlumpHelmetPunk" youtube)
+  ("UCAL3JXZSzSm8AlZyD3nQdBA" youtube) ; Primitive Technology
+  ("ProZD" youtube)
+  ("UCO8DQrSp5yEP937qNqTooOw" youtube) ; Strange Parts
+  ("UCy0tKL1T7wFoYcxCe0xjN6Q" youtube) ; Technology Connections
+  ("Thunderf00t" youtube)
+  ("handmadeheroarchive" youtube dev)
+  ("UCwRqWnW5ZkVaP_lZF7caZ-g" youtube) ; Retro Game Mechanics Explained
+  ("phreakindee" youtube)
+  ("quill18" youtube)
+  ("szyzyg" youtube)
+  ("UCsXVk37bltHxD1rDPwtNM8Q" youtube) ; Kurzgesagt In a Nutshell
+  ("Wendoverproductions" youtube))
 
 * MAGIT
 
 #+BEGIN_SRC emacs-lisp
-(use-package magit
-  :ensure t
-  :config
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (add-to-list 'exec-path "C:/Program Files/Git/mingw64/libexec/git-core/"))
+(global-set-key (kbd "C-x g") 'magit-status)
+(add-to-list 'exec-path "C:/Program Files/Git/mingw64/libexec/git-core/")
 #+END_SRC
 
 * Custom Functions
+
+** Good Morning Simon
 
 #+BEGIN_SRC emacs-lisp
 (defun good-morning-simon ()
@@ -212,12 +394,29 @@ Org-bullet is pretty laggy.
 (interactive)
 (toggle-frame-fullscreen)
 (split-window-right 58)
-(tomatinho)
-(split-window-below 50)
+;;(tomatinho)
+;;(split-window-below 50)
 (find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
 (split-window-below 30)
 (find-file "E:/Dokumente/Stundenzettel.org")
 (make-frame))
+#+END_SRC
+
+
+** Whack Whitespace
+
+#+BEGIN_SRC emacs-lisp
+    (defun whack-whitespace (arg)
+      "Delete all white space from point to the next word.  With prefix ARG
+    delete across newlines as well.  The only danger in this is that you
+    don't have to actually be at the end of a word to make it work.  It
+    skips over to the next whitespace and then whacks it all to the next
+    word."
+      (interactive "P")
+      (let ((regexp (if arg "[ \t\n]+" "[ \t]+")))
+        (re-search-forward regexp nil t)
+        (replace-match "" nil nil)))
+
 #+END_SRC
 
 * Time
@@ -229,7 +428,191 @@ Org-bullet is pretty laggy.
 * Google
 
 #+BEGIN_SRC emacs-lisp
-(use-package google-this
-  :ensure t
-  :config (google-this-mode 1))
+(require 'google-this)
+(google-this-mode 1)
 #+END_SRC
+
+* RFC View
+
+#+BEGIN_SRC emacs-lisp
+;;  (setq auto-mode-alist
+ ;;       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . rfcview-mode)
+   ;;           auto-mode-alist))
+;;
+  ;;(autoload 'rfcview-mode "rfcview" nil t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(require 'irfc)
+(setq irfc-directory "E:/Dokumente/Richtlinien/RFC/")
+(setq irfc-assoc-mode t)
+(setq auto-mode-alist
+       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . irfc-mode)
+          auto-mode-alist))
+#+END_SRC
+
+* Clang Format
+
+#+BEGIN_SRC emacs-lisp
+
+(require 'clang-format)
+(global-set-key (kbd "C-c i") 'clang-format-region)
+(global-set-key (kbd "C-c u") 'clang-format-buffer)
+
+(setq clang-format-style-option "Google")
+
+#+END_SRC
+
+* Tiny Expand
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-;") #'tiny-expand)
+#+END_SRC
+
+* Same Frame Speedbar
+
+#+BEGIN_SRC emacs-lisp
+ (require 'sr-speedbar)
+ (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
+#+END_SRC
+* Dired
+
+** General
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+#+END_SRC
+
+** Icon
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'dired-mode-hook 'dired-icon-mode)
+#+END_SRC
+** Launch
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired-launch)
+(dired-launch-enable)
+#+END_SRC
+
+** Detail
+
+#+BEGIN_SRC emacs-lisp
+(setq-default dired-details-hidden-string "--- ")
+#+END_SRC
+
+** Subtree
+
+#+BEGIN_SRC emacs-lisp
+(use-package dired-subtree
+  :config
+  (bind-keys :map dired-mode-map
+             ("i" . dired-subtree-insert)
+             (";" . dired-subtree-remove)))
+#+END_SRC
+
+* Imenue
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-.") 'imenu-anywhere)
+#+END_SRC
+
+* Flycheck
+
+#+BEGIN_SRC emacs-lisp
+(require 'flycheck)
+(global-flycheck-mode)
+#+END_SRC
+
+* VHDL-Tool
+
+#
++BEGIN_SRC emacs-lisp
+(flycheck-define-checker vhdl-tool
+  "A VHDL syntax checker, type checker and linter using VHDL-Tool.
+
+See URL `http://vhdltool.com'."
+  :command ("vhdl-tool" "client" "lint" "--compact" "--stdin" "-f" source
+            )
+  :standard-input t
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ":w:" (message) line-end)
+   (error line-start (file-name) ":" line ":" column ":e:" (message) line-end))
+  :modes (vhdl-mode))
+  
+(add-to-list 'flycheck-checkers 'vhdl-tool)
+#
++END_SRC
+
+* Multiple Cursor
+
+#+BEGIN_SRC emacs-lisp
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+#+END_SRC
+
+* Ivy
+
+#+BEGIN_SRC emacs-lisp
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;;(global-set-key (kbd "C-c g") 'counsel-git)
+;;(global-set-key (kbd "C-c j") 'counsel-git-grep)
+;;(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+#+END_SRC
+
+* C Mode Functions
+#+BEGIN_SRC emacs-lisp
+(defun my-prettify-c-block-comment (orig-fun &rest args)
+  (let* ((first-comment-line (looking-back "/\\*\\s-*.*"))
+         (star-col-num (when first-comment-line
+                         (save-excursion
+                           (re-search-backward "/\\*")
+                           (1+ (current-column))))))
+    (apply orig-fun args)
+    (when first-comment-line
+      (save-excursion
+        (newline)
+        (dotimes (cnt star-col-num)
+          (insert " "))
+        (move-to-column star-col-num)
+        (insert "*/"))
+      (move-to-column star-col-num) ; comment this line if using bsd style
+      (insert "*") ; comment this line if using bsd style
+     ))
+  ;; Ensure one space between the asterisk and the comment
+  (when (not (looking-back " "))
+    (insert " ")))
+(advice-add 'c-indent-new-comment-line :around #'my-prettify-c-block-comment)
+;; (advice-remove 'c-indent-new-comment-line #'my-prettify-c-block-comment)
+#+END_SRC
+
+* Astyle
+
+#+BEGIN_SRC emacs-lisp
+(defun astyle-this-buffer (pmin pmax)
+  (interactive "r")
+  (shell-command-on-region pmin pmax
+                           "E:/Programme/AStyle/bin/AStyle.exe --options=E:/Dokumente/Richtlinien/CodingStyle/astylerc" ;; add options here...
+                           (current-buffer) t 
+                           (get-buffer-create "*Astyle Errors*") t))
+#+END_SRC
+
+

@@ -7,17 +7,22 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(clang-format-executable "E:\\Programme\\LLVM\\bin\\clang-format")
+ '(clang-format-style "Google")
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes nil)
+ '(custom-enabled-themes (quote (sanityinc-solarized-light)))
  '(custom-file "~/.emacs.d/.emacs-custom.el")
  '(custom-safe-themes
    (quote
-    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
+ '(dired-dwim-target t)
+ '(dired-hide-details-hide-information-lines t)
+ '(dired-hide-details-hide-symlink-targets t)
  '(doc-view-ghostscript-program "C:/Program Files/gs/gs9.21/bin/gswin64.exe")
  '(doc-view-resolution 150)
  '(elfeed-feeds
@@ -46,8 +51,9 @@ static char *note[] = {
 \"#######..#\" };")))
  '(exec-path
    (quote
-    ("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/" "E:/Programme/cURL/bin")))
+    ("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/" "E:/Programme/cURL/bin" "E:/Programme/ImageMagick-7.0.8-Q16")))
  '(fci-rule-color "#073642")
+ '(global-yascroll-bar-mode t)
  '(gnus-logo-colors (quote ("#259ea2" "#adadad")) t)
  '(gnus-mode-line-image-cache
    (quote
@@ -95,6 +101,7 @@ static char *gnus-pointer[] = {
  '(hl-fg-colors
    (quote
     ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
@@ -126,17 +133,53 @@ static char *gnus-pointer[] = {
       (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
       "* TODO %?
  %i")
-     ("w" "Work task." entry
-      (file+headline "e:/Dokumente/tasks.org" "Now (Today/Tomorrow)")
-      "** TODO %?
-%i"))) t)
+     ("t" "Drinking a Tee" item
+      (file+headline "~/../Dropbox/Dokumente/Habits.org" "Tee")
+      "%(org-time-stamp '(16) t)" :immediate-finish t)
+     ("k" "Drinking a Coffee" item
+      (file+headline "~/../Dropbox/Dokumente/Habits.org" "Kaffee")
+      "%(org-time-stamp '(16) t)" :immediate-finish t))) t)
+ '(org-emphasis-alist
+   (quote
+    (("*"
+      (:foreground red :weight extra-bold))
+     ("/" italic)
+     ("_" underline)
+     ("=" org-verbatim verbatim)
+     ("~" org-code verbatim)
+     ("+"
+      (:strike-through t)))))
  '(org-enforce-todo-dependencies t)
  '(org-file-apps
    (quote
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default)
-     ("\\.pdf\\'" . emacs))))
+     ("\\.pdf\\'" . default))))
+ '(org-format-latex-header
+   "\\documentclass{article}
+\\usepackage[usenames]{color}
+[PACKAGES]
+[DEFAULT-PACKAGES]
+\\pagestyle{empty}             % do not remove
+% The settings below are copied from fullpage.sty
+\\setlength{\\textwidth}{\\paperwidth}
+\\addtolength{\\textwidth}{-3cm}
+\\setlength{\\oddsidemargin}{1.5cm}
+\\addtolength{\\oddsidemargin}{-2.54cm}
+\\setlength{\\evensidemargin}{\\oddsidemargin}
+\\setlength{\\textheight}{\\paperheight}
+\\addtolength{\\textheight}{-\\headheight}
+\\addtolength{\\textheight}{-\\headsep}
+\\addtolength{\\textheight}{-\\footskip}
+\\addtolength{\\textheight}{-3cm}
+\\setlength{\\topmargin}{1.5cm}
+\\addtolength{\\topmargin}{-2.54cm}")
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 1.0 :html-foreground "Black" :html-scale 1.0 :matchers
+		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-image-actual-width 300)
  '(org-latex-compiler "pdflatex")
  '(org-startup-truncated nil)
  '(org-structure-template-alist
@@ -184,12 +227,14 @@ static char *gnus-pointer[] = {
      ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (tomatinho google-this glab ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
+    (yascroll dired-subtree poporg counsel swiper ivy multiple-cursors lsp-mode flycheck helm-gitlab nov imenu-anywhere speed-type dired-launch dired-icon sr-speedbar tiny clang-format anaconda-mode german-holidays csv-mode helm-core typing babel tomatinho google-this glab ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
+ '(python-shell-completion-native-enable nil)
+ '(python-shell-exec-path (quote ("E:\\Programme\\Python27")))
  '(server-mode t)
  '(shell-file-name
-   "C:/Program Files/Emacs/libexec/emacs/25.2/i686-w64-mingw32/cmdproxy.exe")
+   "E:\\Programme\\Emacs\\26.1\\libexec\\emacs\\26.1\\x86_64-w64-mingw32\\cmdproxy.exe")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#839496" 0.2))
  '(solarized-height-minus-1 1)
  '(solarized-height-plus-1 1)
@@ -209,25 +254,26 @@ static char *gnus-pointer[] = {
  '(vc-annotate-color-map
    (quote
     ((20 . "#dc322f")
-     (40 . "#c85d17")
-     (60 . "#be730b")
+     (40 . "#c9485ddd1797")
+     (60 . "#bf7e73b30bcb")
      (80 . "#b58900")
-     (100 . "#a58e00")
-     (120 . "#9d9100")
-     (140 . "#959300")
-     (160 . "#8d9600")
+     (100 . "#a5a58ee30000")
+     (120 . "#9d9d91910000")
+     (140 . "#9595943e0000")
+     (160 . "#8d8d96eb0000")
      (180 . "#859900")
-     (200 . "#669b32")
-     (220 . "#579d4c")
-     (240 . "#489e65")
-     (260 . "#399f7e")
+     (200 . "#67119c4632dd")
+     (220 . "#57d79d9d4c4c")
+     (240 . "#489d9ef365ba")
+     (260 . "#3963a04a7f29")
      (280 . "#2aa198")
-     (300 . "#2898af")
-     (320 . "#2793ba")
-     (340 . "#268fc6")
+     (300 . "#288e98cbafe2")
+     (320 . "#27c19460bb87")
+     (340 . "#26f38ff5c72c")
      (360 . "#268bd2"))))
  '(vc-annotate-very-old-color nil)
- '(vhdl-clock-name "ACLK")
+ '(vhdl-clock-edge-condition (quote function))
+ '(vhdl-clock-name "CLK")
  '(vhdl-company-name "ELTEC Elektronik AG")
  '(vhdl-compiler "Xilinx XST")
  '(vhdl-copyright-string "-- Copyright (c) <year> <company>")
@@ -305,15 +351,15 @@ end process <label>;  " "p" "pro")
       (("Xilinx XST" "\\2" "\\2" nil))
       "./" "work" "work/" "Makefile" ""))))
  '(vhdl-reset-kind (quote sync))
- '(vhdl-reset-name "ARESETN")
+ '(vhdl-reset-name "RESET")
  '(vhdl-sensitivity-list-all nil)
  '(vhdl-standard (quote (8 nil)))
  '(vhdl-stutter-mode t)
+ '(vhdl-upper-case-enum-values t)
  '(weechat-color-list
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(whitespace-line-column 100)
- '(with-editor-emacsclient-executable "E:/Programme/Emacs/bin/emacsclient.exe")
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -327,6 +373,13 @@ end process <label>;  " "p" "pro")
  '(elfeed-search-tag-face ((t (:foreground "gold"))))
  '(elfeed-search-title-face ((t (:foreground "steel blue"))))
  '(elfeed-search-unread-title-face ((t (:foreground "light cyan" :weight bold))))
+ '(irfc-head-name-face ((t (:foreground "turquoise" :underline t :weight bold))))
+ '(irfc-head-number-face ((t (:foreground "turquoise" :weight bold))))
+ '(irfc-reference-face ((t (:foreground "light slate blue" :weight bold))))
+ '(irfc-requirement-keyword-face ((t (:foreground "brown1" :weight bold))))
+ '(irfc-rfc-link-face ((t (:foreground "light slate gray" :weight bold))))
+ '(irfc-rfc-number-face ((t (:foreground "light cyan" :weight bold))))
+ '(irfc-table-item-face ((t (:foreground "medium sea green"))))
  '(mode-line ((t (:background "#839496" :foreground "#002b36" :box (:line-width 1 :color "#839496" :style unspecified) :overline "#839496" :underline nil))))
  '(mode-line-highlight ((t (:foreground "gold2"))))
  '(org-level-1 ((t (:inherit variable-pitch :foreground "#cb4b16" :height 1.1))))
@@ -337,6 +390,11 @@ end process <label>;  " "p" "pro")
  '(org-level-6 ((t (:inherit variable-pitch :foreground "#859900" :height 1.1))))
  '(org-level-7 ((t (:inherit variable-pitch :foreground "#dc322f" :height 1.1))))
  '(org-level-8 ((t (:inherit variable-pitch :foreground "#268bd2" :height 1.1))))
+ '(rfcview-headname-face ((t (:foreground "dark turquoise" :underline t :weight bold))))
+ '(rfcview-headnum-face ((t (:foreground "dark turquoise" :weight bold))))
+ '(rfcview-rfcnum-face ((t (:foreground "sky blue" :weight bold))))
+ '(rfcview-stdnum-face ((t (:foreground "forest green" :weight bold))))
+ '(rfcview-title-face ((t (:foreground "orange" :weight bold))))
  '(tomatinho-current-pause-face ((t (:inherit tomatinho-pause-face :height 2.5 :family "DejaVu Sans"))))
  '(tomatinho-ok-face ((t (:foreground "tomato" :family "DejaVu Sans"))))
  '(tomatinho-pause-face ((t (:foreground "green yellow"))))
