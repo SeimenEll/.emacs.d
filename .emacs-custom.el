@@ -7,6 +7,7 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(beacon-color "#dc322f")
  '(clang-format-executable "E:\\Programme\\LLVM\\bin\\clang-format")
  '(clang-format-style "Google")
  '(compilation-message-face (quote default))
@@ -18,7 +19,7 @@
  '(custom-file "~/.emacs.d/.emacs-custom.el")
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "f66ffeadda7b52d40c8d698967ae9e9836f54324445af95610d257fa5e3e1e21" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "04dd0236a367865e591927a3810f178e8d33c372ad5bfef48b5ce90d4b476481" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(diary-entry-marker (quote font-lock-variable-name-face))
  '(dired-dwim-target t)
  '(dired-hide-details-hide-information-lines t)
@@ -53,6 +54,7 @@ static char *note[] = {
    (quote
     ("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/" "E:/Programme/cURL/bin" "E:/Programme/ImageMagick-7.0.8-Q16")))
  '(fci-rule-color "#073642")
+ '(frame-background-mode (quote dark))
  '(global-yascroll-bar-mode t)
  '(gnus-logo-colors (quote ("#259ea2" "#adadad")) t)
  '(gnus-mode-line-image-cache
@@ -227,7 +229,7 @@ static char *gnus-pointer[] = {
      ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (yascroll dired-subtree poporg counsel swiper ivy multiple-cursors lsp-mode flycheck helm-gitlab nov imenu-anywhere speed-type dired-launch dired-icon sr-speedbar tiny clang-format anaconda-mode german-holidays csv-mode helm-core typing babel tomatinho google-this glab ox-tiddly writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd color-theme-solarized color-theme-sanityinc-solarized color-theme google-translate threes ox-twiki org-bullets ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
+    (all-the-icons smart-mode-line-atom-one-dark-theme smart-mode-line yascroll dired-subtree poporg counsel swiper ivy multiple-cursors lsp-mode flycheck helm-gitlab nov imenu-anywhere speed-type dired-launch dired-icon sr-speedbar tiny clang-format anaconda-mode german-holidays csv-mode helm-core typing babel tomatinho google-this glab writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd google-translate threes ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(python-shell-completion-native-enable nil)
@@ -272,6 +274,7 @@ static char *gnus-pointer[] = {
      (340 . "#26f38ff5c72c")
      (360 . "#268bd2"))))
  '(vc-annotate-very-old-color nil)
+ '(vhdl-basic-offset 3)
  '(vhdl-clock-edge-condition (quote function))
  '(vhdl-clock-name "CLK")
  '(vhdl-company-name "ELTEC Elektronik AG")
