@@ -49,12 +49,12 @@
   (setq solarized-high-contrast-mode-line t)
   (load-theme 'solarized-dark t)
 
-(setq inhibit-startup-screen t)
+  (setq inhibit-startup-screen t)
 
-(setq column-number-mode t)
-(setq tab-width 4)
+  (setq column-number-mode t)
+  (setq tab-width 4)
 
-(global-auto-revert-mode t)
+  (global-auto-revert-mode t)
 #+END_SRC
 
 * Whitespace mode
@@ -166,6 +166,12 @@ Org-bullet is pretty laggy.
 ;;(require 'ox-twiki)
 #+END_SRC
 
+** Tempo (Templates)
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-tempo)
+#+END_SRC
+
 * Helm
 
 #+BEGIN_SRC emacs-lisp
@@ -192,6 +198,13 @@ Org-bullet is pretty laggy.
 #+BEGIN_SRC emacs-lisp
 ;;(require 'powerline)
 ;;(powerline-default-theme)
+#+END_SRC
+
+* Spaceline
+
+#+BEGIN_SRC emacs-lisp
+(require 'spaceline-config)
+(spaceline-spacemacs-theme)
 #+END_SRC
 
 * Exex Path for Work-PC
@@ -541,7 +554,6 @@ Liste von vielleicht interessanten Blogs.
 ;;(add-to-list 'flycheck-checkers 'vhdl-tool)
 #+END_SRC
 
-
 * Multiple Cursor
 
 #+BEGIN_SRC emacs-lisp
@@ -613,4 +625,20 @@ Liste von vielleicht interessanten Blogs.
                            (get-buffer-create "*Astyle Errors*") t))
 #+END_SRC
 
+* Dictcc
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c d d") 'dictcc)
+(global-set-key (kbd "C-c d w") 'dictcc-at-point)
+#+end_src
+
+* Highlight Thing
+
+#+begin_src emacs-lisp
+(require 'highlight-thing)
+(global-highlight-thing-mode)
+
+;; Highlight all visible buffers
+(setq highlight-thing-all-visible-buffers-p t)
+#+end_src
 
