@@ -7,6 +7,7 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(anzu-cons-mode-line-p nil)
  '(beacon-color "#dc322f")
  '(clang-format-executable "E:\\Programme\\LLVM\\bin\\clang-format")
  '(clang-format-style "Google")
@@ -15,7 +16,6 @@
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (sanityinc-solarized-light)))
  '(custom-file "~/.emacs.d/.emacs-custom.el")
  '(custom-safe-themes
    (quote
@@ -55,6 +55,7 @@ static char *note[] = {
    (quote
 	("E:/Programme/Aspell/bin/" "C:/Program Files/Git/mingw64/libexec/git-core/" "C:/Program Files/Git/bin/" "C:/cygwin64/bin/" "E:/Programme/cURL/bin" "E:/Programme/ImageMagick-7.0.8-Q16")))
  '(fci-rule-color "#073642")
+ '(fill-column 90)
  '(frame-background-mode (quote dark))
  '(global-yascroll-bar-mode t)
  '(gnus-logo-colors (quote ("#259ea2" "#adadad")) t)
@@ -82,11 +83,6 @@ static char *gnus-pointer[] = {
 \"###..######.######\",
 \"###########.######\" };")) t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-	(solarized-color-blend it "#002b36" 0.25)
-	(quote
-	 ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
  '(highlight-symbol-foreground-color "#93a1a1")
  '(highlight-tail-colors
    (quote
@@ -194,7 +190,7 @@ static char *gnus-pointer[] = {
 	 ("gnu" . "http://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-	(highlight-thing spaceline dictcc dklrt ledger-mode guru-mode all-the-icons smart-mode-line-atom-one-dark-theme smart-mode-line yascroll dired-subtree poporg counsel swiper ivy multiple-cursors lsp-mode flycheck helm-gitlab nov imenu-anywhere speed-type dired-launch dired-icon sr-speedbar tiny clang-format anaconda-mode german-holidays csv-mode helm-core typing babel google-this glab writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd google-translate threes ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
+	(spacemacs-theme use-package flymd pdf-tools org-noter spaceline dictcc dklrt ledger-mode guru-mode all-the-icons smart-mode-line-atom-one-dark-theme smart-mode-line yascroll dired-subtree poporg counsel swiper ivy multiple-cursors lsp-mode flycheck helm-gitlab nov imenu-anywhere speed-type dired-launch dired-icon sr-speedbar tiny clang-format anaconda-mode german-holidays csv-mode helm-core typing babel google-this glab writeroom-mode elfeed helm-spotify powerline ox-pandoc magit md4rd google-translate threes ssh helm alect-themes maxframe langtool sudoku typit typing-game 2048-game buffer-move solarized-theme)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(python-shell-completion-native-enable nil)
@@ -202,17 +198,9 @@ static char *gnus-pointer[] = {
  '(server-mode t)
  '(shell-file-name
    "E:\\Programme\\Emacs\\26.1\\libexec\\emacs\\26.1\\x86_64-w64-mingw32\\cmdproxy.exe")
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#839496" 0.2))
- '(solarized-height-minus-1 1)
- '(solarized-height-plus-1 1)
- '(solarized-height-plus-2 1)
- '(solarized-height-plus-3 1)
- '(solarized-height-plus-4 1)
- '(solarized-high-contrast-mode-line t)
- '(solarized-scale-org-headlines nil)
- '(solarized-use-variable-pitch nil)
  '(spacemacs-theme-comment-bg nil)
  '(spacemacs-theme-comment-italic t)
+ '(swiper-include-line-number-in-search t)
  '(tab-width 4)
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
@@ -266,11 +254,6 @@ static char *gnus-pointer[] = {
 ----------------------------------------------------------------------------------------------------
 <copyright>
 ----------------------------------------------------------------------------------------------------
--- Revisions  :
--- Date        Version  Author  Description
--- <date>  1.0      <login>	Created
-----------------------------------------------------------------------------------------------------
-
 ")
  '(vhdl-index-menu t)
  '(vhdl-model-alist
@@ -340,6 +323,7 @@ end process <label>;  " "p" "pro")
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "outline" :family "Courier New"))))
  '(elfeed-search-feed-face ((t (:foreground "sky blue"))))
  '(elfeed-search-tag-face ((t (:foreground "gold"))))
  '(elfeed-search-title-face ((t (:foreground "steel blue"))))

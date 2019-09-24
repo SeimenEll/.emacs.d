@@ -39,9 +39,9 @@
 #+END_SRC
 
 * Unsorted
-
 #+BEGIN_SRC emacs-lisp
-(setq solarized-use-variable-pitch nil)
+  (setq inhibit-startup-screen t)
+  (setq solarized-use-variable-pitch nil)
   (setq solarized-height-plus-1 1.0)
   (setq solarized-height-plus-2 1.0)
   (setq solarized-height-plus-3 1.0)
@@ -49,12 +49,12 @@
   (setq solarized-high-contrast-mode-line t)
   (load-theme 'solarized-dark t)
 
-  (setq inhibit-startup-screen t)
-
   (setq column-number-mode t)
   (setq tab-width 4)
 
   (global-auto-revert-mode t)
+
+  (setq auto-revert-verbose nil)
 #+END_SRC
 
 * Whitespace mode
@@ -634,11 +634,18 @@ Liste von vielleicht interessanten Blogs.
 
 * Highlight Thing
 
-#+begin_src emacs-lisp
+begin_src emacs-lisp
 (require 'highlight-thing)
 (global-highlight-thing-mode)
 
 ;; Highlight all visible buffers
 (setq highlight-thing-all-visible-buffers-p t)
+end_src
+
+* Keybindings
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-p") 'scroll-up-line)
+(global-set-key (kbd "M-n") 'scroll-down-line)
 #+end_src
 
