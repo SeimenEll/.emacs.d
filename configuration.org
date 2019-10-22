@@ -124,15 +124,11 @@ Org-bullet is pretty laggy.
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;;(setq org-ellipsis "⤵")
 (setq org-src-tab-acts-natively t)
 (setq org-src-window-setup 'current-window)
 
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-export-coding-system 'utf-8)
-
-;;(require 'org-bullets)
-;;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+END_SRC
 
 ** Summary TODO
@@ -146,13 +142,6 @@ Org-bullet is pretty laggy.
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
-** Export
-
-#+BEGIN_SRC emacs-lisp
-(eval-after-load "org"
-  '(require 'ox-md nil t))
-#+END_SRC
-
 ** Org Babel
 
 #+BEGIN_SRC emacs-lisp
@@ -160,22 +149,6 @@ Org-bullet is pretty laggy.
 'org-babel-load-languages
 '((dot . t)))
 #+END_SRC
-
-** Twiki
-
-#+BEGIN_SRC emacs-lisp
-;;(require 'ox-tiddly) ;; error: Unknown keyword: :export-block
-;;(require 'ox-twiki)
-#+END_SRC
-
-* Helm
-
-#
-+BEGIN_SRC emacs-lisp
-(require 'helm-config)
-(global-set-key (kbd "M-x") 'helm-M-x)
-#
-+END_SRC
 
 * Ido
 
@@ -192,34 +165,6 @@ Org-bullet is pretty laggy.
          (quote (".vhd" ".org" ".txt" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf")))
    (ido-mode 1))
 #+END_SRC
-
-* Exex Path for Work-PC
-
-#
-+BEGIN_SRC emacs-lisp
-(if (file-directory-p "C:/cygwin64/bin")
-    (add-to-list 'exec-path "C:/cygwin64/bin"))
-#
-+END_SRC
-
-** Flyspell
-
-#
-+BEGIN_SRC emacs-lisp
-(add-to-list 'exec-path "E:/Programme/Aspell/bin/")
-(setq ispell-program-name "aspell")
-(require 'ispell)
-#
-+END_SRC
-
-** Langtool
-
-#
-+BEGIN_SRC emacs-lisp
-(require 'langtool)
-(setq langtool-language-tool-jar "E:/Programme/LanguageTool-3.8/languagetool-commandline.jar")
-#
-+END_SRC
 
 * Buffer Move
 
@@ -241,23 +186,6 @@ Org-bullet is pretty laggy.
 #+END_SRC
 
 * Custom Functions
-
-** Good Morning Simon
-
-#+BEGIN_SRC emacs-lisp
-(defun good-morning-simon ()
-"Start all interesting Buffer for workflow."
-(interactive)
-(toggle-frame-fullscreen)
-(split-window-right 58)
-;;(tomatinho)
-;;(split-window-below 50)
-(find-file "C:/Users/sliebelt/Dropbox/Dokumente/Habits.org")
-(split-window-below 30)
-(find-file "E:/Dokumente/Stundenzettel.org")
-(make-frame))
-#+END_SRC
-
 
 ** Whack Whitespace
 
@@ -286,35 +214,9 @@ Org-bullet is pretty laggy.
 #+BEGIN_SRC emacs-lisp
 (use-package google-this
   :ensure t
-  :config (google-this-mode 1))  
+  :config 
+  (google-this-mode 1))  
 #+END_SRC
-
-* RFC View
-
-#
-+BEGIN_SRC emacs-lisp
-(require 'irfc)
-(setq irfc-directory "E:/Dokumente/Richtlinien/RFC/")
-(setq irfc-assoc-mode t)
-(setq auto-mode-alist
-       (cons '("/rfc[0-9]+\\.txt\\(\\.gz\\)?\\'" . irfc-mode)
-          auto-mode-alist))
-#
-+END_SRC
-
-* Clang Format
-
-#
-+BEGIN_SRC emacs-lisp
-
-(require 'clang-format)
-(global-set-key (kbd "C-c i") 'clang-format-region)
-(global-set-key (kbd "C-c u") 'clang-format-buffer)
-
-(setq clang-format-style-option "Google")
-
-#
-+END_SRC
 
 * Tiny Expand
 
@@ -322,80 +224,17 @@ Org-bullet is pretty laggy.
 (global-set-key (kbd "C-;") #'tiny-expand)
 #+END_SRC
 
-* Same Frame Speedbar
-
-#
-+BEGIN_SRC emacs-lisp
- (require 'sr-speedbar)
- (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
-#
-+END_SRC
-
 * Dired
-
-** General
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'dired-mode-hook 'auto-revert-mode)
-#+END_SRC
-
-** Icon
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'dired-mode-hook 'dired-icon-mode)
-#+END_SRC
-** Launch
-
-#
-+BEGIN_SRC emacs-lisp
-(require 'dired-launch)
-(dired-launch-enable)
-#
-+END_SRC
-
-** Detail
-
-#+BEGIN_SRC emacs-lisp
-(setq-default dired-details-hidden-string "--- ")
-#+END_SRC
 
 ** Subtree
 
-#
-+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package dired-subtree
   :ensure t
   :config
   (bind-keys :map dired-mode-map
              ("i" . dired-subtree-insert)
              (";" . dired-subtree-remove)))
-#
-+END_SRC
-
-* Imenue
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-.") 'imenu-anywhere)
-#+END_SRC
-
-* Flycheck
-
-#
-+BEGIN_SRC emacs-lisp
-;;(require 'flycheck)
-;;(global-flycheck-mode)
-#
-+END_SRC
-
-* Multiple Cursor
-
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C-<" . mc/mark-all-like-this)))
 #+END_SRC
 
 * Ivy
@@ -423,41 +262,11 @@ Org-bullet is pretty laggy.
          ("C-r" . counsel-minibuffer-history)))
 #+END_SRC
 
-* C Mode Functions
-#+BEGIN_SRC emacs-lisp
-(defun my-prettify-c-block-comment (orig-fun &rest args)
-  (let* ((first-comment-line (looking-back "/\\*\\s-*.*"))
-         (star-col-num (when first-comment-line
-                         (save-excursion
-                           (re-search-backward "/\\*")
-                           (1+ (current-column))))))
-    (apply orig-fun args)
-    (when first-comment-line
-      (save-excursion
-        (newline)
-        (dotimes (cnt star-col-num)
-          (insert " "))
-        (move-to-column star-col-num)
-        (insert "*/"))
-      (move-to-column star-col-num) ; comment this line if using bsd style
-      (insert "*") ; comment this line if using bsd style
-     ))
-  ;; Ensure one space between the asterisk and the comment
-  (when (not (looking-back " "))
-    (insert " ")))
-(advice-add 'c-indent-new-comment-line :around #'my-prettify-c-block-comment)
-;; (advice-remove 'c-indent-new-comment-line #'my-prettify-c-block-comment)
-#+END_SRC
-
-* Astyle
+* Dict.cc
 
 #+BEGIN_SRC emacs-lisp
-(defun astyle-this-buffer (pmin pmax)
-  (interactive "r")
-  (shell-command-on-region pmin pmax
-                           "E:/Programme/AStyle/bin/AStyle.exe --options=E:/Dokumente/Richtlinien/CodingStyle/astylerc" ;; add options here...
-                           (current-buffer) t 
-                           (get-buffer-create "*Astyle Errors*") t))
+(use-package dictcc
+  :ensure t
+  :bind (("C-c d d" . dictcc)
+         ("C-c d w" . dictcc-at-point)))
 #+END_SRC
-
-
