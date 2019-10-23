@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (dictcc counsel swiper ivy dired-subtree google-this magit buffer-move solarized-theme use-package))))
+    (ivy-posframe dictcc counsel swiper ivy dired-subtree google-this magit buffer-move solarized-theme use-package))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

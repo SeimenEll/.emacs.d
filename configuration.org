@@ -262,6 +262,20 @@ Org-bullet is pretty laggy.
          ("C-r" . counsel-minibuffer-history)))
 #+END_SRC
 
+** Posframe
+
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-posframe
+  :ensure t
+  :config
+  (setq ivy-posframe-display-functions-alist 
+      '((swiper . nil)
+        (complete-symbol . ivy-posframe-display-at-point)
+        (counsel-M-x . ivy-posframe-display-at-frame-center)
+        (t . ivy-posframe-display-at-frame-center)))
+  (ivy-posframe-mode 1))
+#+END_SRC
+
 * Dict.cc
 
 #+BEGIN_SRC emacs-lisp
@@ -269,4 +283,11 @@ Org-bullet is pretty laggy.
   :ensure t
   :bind (("C-c d d" . dictcc)
          ("C-c d w" . dictcc-at-point)))
+#+END_SRC
+
+* Graphviz
+
+#+BEGIN_SRC emacs-lisp
+(use-package graphviz-dot-mode
+  :ensure t)
 #+END_SRC
