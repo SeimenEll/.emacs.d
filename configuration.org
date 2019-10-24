@@ -285,9 +285,3 @@ Org-bullet is pretty laggy.
          ("C-c d w" . dictcc-at-point)))
 #+END_SRC
 
-* Graphviz
-
-#+BEGIN_SRC emacs-lisp
-(use-package graphviz-dot-mode
-  :ensure t)
-#+END_SRC
