@@ -287,3 +287,26 @@ Org-bullet is pretty laggy.
          ("C-c d w" . dictcc-at-point)))
 #+END_SRC
 
+* VHDL-Mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package vhdl-mode
+  :ensure t
+  :config
+  (setq vhdl-basic-offset 3)
+  (setq vhdl-company-name "ELTEC Elektronik AG")
+  (setq vhdl-copyright-string" -- Copyright (c) <year> <comppany>")
+  (setq vhdl-electric-mode nil)
+  (setq vhdl-end-comment-column 99)
+  (setq vhdl-stutter-mode t)
+  (setq vhdl-upper-case-enum-values t)
+  (setq vhdl-platform-spec "WIN10"))
+#+END_SRC
+* Which-Key
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :ensure t
+  :config (which-key-mode)
+          (setq which-key-idle-delay 0.5))
+#+END_SRC
