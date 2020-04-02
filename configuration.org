@@ -31,6 +31,8 @@
 (setq column-number-mode t)
 (setq tab-width 4)
 
+(setq ring-bell-function (quote ignore))
+
 (global-auto-revert-mode t)
 #+END_SRC
 
