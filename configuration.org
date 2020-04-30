@@ -34,6 +34,9 @@
 (setq ring-bell-function (quote ignore))
 
 (global-auto-revert-mode t)
+
+(setq user-mail-address "sliebelt@eltec.de")
+(setq user-full-name "Simon Liebelt")
 #+END_SRC
 
 * Solarized Theme
@@ -297,13 +300,30 @@ Org-bullet is pretty laggy.
   :config
   (setq vhdl-basic-offset 3)
   (setq vhdl-company-name "ELTEC Elektronik AG")
-  (setq vhdl-copyright-string" -- Copyright (c) <year> <comppany>")
+  (setq vhdl-copyright-string"-- Copyright (c) <year> <company>")
   (setq vhdl-electric-mode nil)
   (setq vhdl-end-comment-column 99)
   (setq vhdl-stutter-mode t)
   (setq vhdl-upper-case-enum-values t)
-  (setq vhdl-platform-spec "WIN10"))
+  (setq vhdl-platform-spec "WIN10")
+  (setq vhdl-file-header
+	"-------------------------------------------------------------------------------
+-- Title      : <title string>
+-- Project    : <project>
+-------------------------------------------------------------------------------
+-- File       : <filename>
+-- Author     : <author>
+-- Company    : <company>
+-- Created    : <date>
+-- Last update: <date>
+-- Platform   : <platform>
+-- Standard   : <standard>
+<projectdesc>-------------------------------------------------------------------------------
+-- Description: <cursor>
+<copyright>
+-------------------------------------------------------------------------------"))
 #+END_SRC
+
 * Which-Key
 
 #+BEGIN_SRC emacs-lisp
