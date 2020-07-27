@@ -91,14 +91,27 @@
       '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
 
 (setq org-capture-templates
-      '(("p" ; hotkey
-	 "Private task." ; name
-	 entry (file+headline "~/Dropbox/Dokumente/PersonalTasks.org" "Unsortiert.")
+      '(("w" ; hotkey
+	 "Work task." ; name
+	 entry (file "~/Documents/Todos.org")
 	 "* TODO %?\n %i")))
 
 (setq org-log-done 'time)
 
 (define-key global-map "\C-cl" 'org-store-link)
+
+(setq org-indent-indentation-per-level 1)
+
+(setq org-adapt-indenation nil)
+
+(setq org-hide-leading-stars 't)
+
+(setq org-hide-emphasis-markers t)
+
+(customize-set-variable 'org-blank-before-new-entry 
+                        '((heading . nil)
+                          (plain-list-item . nil)))
+(setq org-cycle-separator-lines 1)
 
 (setq org-image-actual-width (/ (display-pixel-width) 3))
 #+END_SRC
@@ -117,6 +130,10 @@
 Oeffnet die Agenda im selben Fenster und zerstört nicht das momentane Window-Setup
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-window-setup 'current-window)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files (list "~/Documents/Todos.org"))
 #+END_SRC
 
 ** Org-bullet
@@ -153,6 +170,26 @@ Org-bullet is pretty laggy.
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((dot . t)))
+#+END_SRC
+
+* Auto Fill mode
+
+#+BEGIN_SRC emacs-lisp
+
+(add-hook
+ 'text-mode-hook
+ 'auto-fill-mode)
+
+#+END_SRC
+
+* Olivetti Mode
+
+#+BEGIN_SRC emacs-lisp
+(add-hook
+ 'text-mode-hook
+ 'olivetti-mode)
+
+(setq olivetti-body-width 90)
 #+END_SRC
 
 * Ido
