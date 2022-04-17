@@ -369,3 +369,46 @@ Org-bullet is pretty laggy.
   :config (which-key-mode)
           (setq which-key-idle-delay 0.5))
 #+END_SRC
+* Company
+#+BEGIN_SRC elisp
+(use-package company
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'hledger-company)
+  (setq company-auto-complete nil
+        company-tooltip-flip-when-above t
+        company-minimum-prefix-length 2
+        company-tooltip-limit 10
+        company-idle-delay 0.5)
+  (global-company-mode 1)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "M-/") 'company-complete-common-or-cycle))
+#+END_SRC
+* hledger
+#+BEGIN_SRC elisp
+(use-package hledger-mode
+  :ensure t
+  :config
+ (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+ (setq hledger-jfile "~/Documents/ledger/2022.journal"))
+#+END_SRC
+* Flycheck
+#+BEGIN_SRC elisp
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+#+END_SRC
+** Color-Modeline
+#+BEGIN_SRC elisp
+(use-package flycheck-color-mode-line
+  :ensure t
+  :init (eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+#+END_SRC
+** Pos-Tip
+#+BEGIN_SRC elisp
+(use-package flycheck-pos-tip
+  :ensure t
+  :init (with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode)))
+#+END_SRC
