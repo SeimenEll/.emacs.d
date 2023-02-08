@@ -85,7 +85,7 @@
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\)$" . org-mode))
 ;; KEYWORDS für TODO
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "|" "DONE(d)" "CANCELED(c)")))
+      '((sequence "TODO(t)" "WIP(w)" "WFR(r)" "|" "DONE(d)" "CANCELED(c)")))
 ;; TAGS für TODO
 (setq org-tag-alist
       '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
@@ -115,6 +115,7 @@
 
 (setq org-image-actual-width (/ (display-pixel-width) 3))
 #+END_SRC
+
 
 ** Code Highlight
 
@@ -171,6 +172,33 @@ Org-bullet is pretty laggy.
 'org-babel-load-languages
 '((dot . t)))
 #+END_SRC
+** Fonts
+
++BEGIN_SRC emacs-lisp
+(let* ((variable-tuple
+        (cond ((x-list-fonts "ETBembo")         '(:font "ETBembo"))
+              ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+              ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+              ((x-list-fonts "Verdana")         '(:font "Verdana"))
+              ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+              (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+       (base-font-color     (face-foreground 'default nil 'default))
+       (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+
+  (custom-theme-set-faces
+   'user
+   `(org-level-8 ((t (,@headline ,@variable-tuple))))
+   `(org-level-7 ((t (,@headline ,@variable-tuple))))
+   `(org-level-6 ((t (,@headline ,@variable-tuple))))
+   `(org-level-5 ((t (,@headline ,@variable-tuple))))
+   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+   `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
++END_SRC
+
+#+RESULTS:
 
 * Auto Fill mode
 
@@ -189,7 +217,7 @@ Org-bullet is pretty laggy.
  'text-mode-hook
  'olivetti-mode)
 
-(setq olivetti-body-width 90)
+(setq olivetti-body-width 150)
 #+END_SRC
 
 * Ido
@@ -278,6 +306,11 @@ Org-bullet is pretty laggy.
              ("i" . dired-subtree-insert)
              (";" . dired-subtree-remove)))
 #+END_SRC
+** Shell Alist
+#+BEGIN_SRC emacs-lisp
+(setq dired-guess-shell-alist-user '(("\\.html\\'" "chrome")
+				     ("\\.pdf\\'" "chrome")))
+#+END_SRC
 
 * Ivy
 
@@ -313,10 +346,11 @@ Org-bullet is pretty laggy.
   :ensure t
   :config
   (setq ivy-posframe-display-functions-alist 
-      '((swiper . nil)
+      '((swiper . ivy-posframe-display-at-frame-bottom-left)
         (complete-symbol . ivy-posframe-display-at-point)
         (counsel-M-x . ivy-posframe-display-at-frame-center)
         (t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-min-width 110)
   (ivy-posframe-mode 1))
 #+END_SRC
 
@@ -331,7 +365,7 @@ Org-bullet is pretty laggy.
 
 * VHDL-Mode
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC elisp
 (use-package vhdl-mode
   :ensure t
   :config
@@ -339,10 +373,13 @@ Org-bullet is pretty laggy.
   (setq vhdl-company-name "ELTEC Elektronik AG")
   (setq vhdl-copyright-string"-- Copyright (c) <year> <company>")
   (setq vhdl-electric-mode nil)
-  (setq vhdl-end-comment-column 99)
+  (setq vhdl-end-comment-column 100)
+  (setq fill-column 100)
   (setq vhdl-stutter-mode t)
   (setq vhdl-upper-case-enum-values t)
   (setq vhdl-platform-spec "WIN10")
+  (setq vhdl-date-format "%d.%m.%Y")
+  (setq vhdl-project "Gigabit Interface 2")
   (setq vhdl-file-header
 	"-------------------------------------------------------------------------------
 -- Title      : <title string>
@@ -358,7 +395,12 @@ Org-bullet is pretty laggy.
 <projectdesc>-------------------------------------------------------------------------------
 -- Description: <cursor>
 <copyright>
--------------------------------------------------------------------------------"))
+-------------------------------------------------------------------------------
+")
+  (setq vhdl-project-alist
+   '(("Gigabit Interface 2" "GbIf 2" "E:/Projekte/GBIF/Firmware/gbif200_firmware/"
+      ("./source/")
+      "" nil "./" "work" "work/" "Makefile" ""))))
 #+END_SRC
 
 * Which-Key
@@ -369,3 +411,46 @@ Org-bullet is pretty laggy.
   :config (which-key-mode)
           (setq which-key-idle-delay 0.5))
 #+END_SRC
+* Smartparens
+#+BEGIN_SRC emacs-lisp
+(use-package smartparens
+  :ensure t)
+#+END_SRC
+* Crux
+#+BEGIN_SRC emacs-lisp
+(use-package crux
+  :ensure t)
+#+END_SRC
+* Flycheck
+
+#+BEGIN_SRC elisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+  #+END_SRC
+
+** Color-Modeline
+
+#+BEGIN_SRC elisp
+   (use-package flycheck-color-mode-line
+     :ensure t
+     :init (eval-after-load "flycheck"
+     '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+   #+END_SRC
+   
+** Pos-Tip
+
+#+BEGIN_SRC elisp
+   (use-package flycheck-pos-tip
+     :ensure t
+     :init (with-eval-after-load 'flycheck
+     (flycheck-pos-tip-mode)))
+   #+END_SRC
+* SR Speedbar
+#+BEGIN_SRC elisp
+(use-package sr-speedbar
+  :ensure t
+  :init
+  (global-set-key (kbd "C-c s") 'sr-speedbar-toggle)
+  (setq sr-speedbar-max-width 13))
+   #+END_SRC
